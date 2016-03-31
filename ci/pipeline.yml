@@ -5,6 +5,16 @@ resources:
     uri: https://github.com/myminseok/flight-school
     branch: master
 
+- name: staging-app
+  type: cf
+  source:
+    api: https://api.pcfdemo.net
+    username:
+    password: 
+    organization: korea
+    space: development
+    skip_cert_check: true
+  
 jobs:
 - name: test-app
   plan:
@@ -12,3 +22,8 @@ jobs:
     trigger: true
   - task: tests
     file: flight-school/build.yml
+  - put: staging-app
+    params:
+      manifest: flight-school/manifest.yml
+
+
